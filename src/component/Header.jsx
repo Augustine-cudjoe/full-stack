@@ -5,7 +5,7 @@ import { UserContext } from '../UserContext';
 
 
 function Header() {
-  const {setUserInfo}=useContext(UserContext);
+  const {userInfo,setUserInfo}=useContext(UserContext);
   useEffect(()=>{
       fetch('http://localhost:4000/profile', {
         credentials:'include',
@@ -24,7 +24,8 @@ function Header() {
      setUserInfo(null);
   }
 
-  const username=userInfo.username;
+  const username=userInfo?.username;
+  console.log(userInfo);
 
   return (
     <header>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Post() {
+function Post({title,summary,content,file}) {
   return (
     <div className="post">
       <div className="image">
@@ -8,12 +8,12 @@ function Post() {
       
       </div>
       <div className="content">
-      <h2> Full moon</h2>
+      <h2> {title}</h2>
       <p className='info'>
         <a className='author'> Augustine Cudjoe</a>
         <time>2024-07-07 12:30pm</time>
       </p>
-       <p className='summary'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam et tempore aspernatur asperiores aliquid, quaerat ut quibusdam minima a odit quisquam rerum repellendus excepturi est, necessitatibus voluptates esse adipisci reiciendis. </p>
+       <p className='summary'> {summary} </p>
     
       </div>
     </div>
