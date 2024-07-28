@@ -1,6 +1,6 @@
 import React from 'react'
-
-function Post({title,summary,content,file}) {
+import { formatISO9075 } from "date-fns";
+function Post({title,summary,content,file,createdAt}) {
   return (
     <div className="post">
       <div className="image">
@@ -11,7 +11,7 @@ function Post({title,summary,content,file}) {
       <h2> {title}</h2>
       <p className='info'>
         <a className='author'> Augustine Cudjoe</a>
-        <time>2024-07-07 12:30pm</time>
+        <time>{formatISO9075(new Date(createdAt))}</time>
       </p>
        <p className='summary'> {summary} </p>
     
