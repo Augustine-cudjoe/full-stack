@@ -6,6 +6,7 @@ import { UserContext } from '../UserContext';
 
 function Header() {
   const {userInfo,setUserInfo}=useContext(UserContext);
+  
   useEffect(()=>{
       fetch('http://localhost:4000/profile', {
         credentials:'include',
@@ -30,6 +31,7 @@ function Header() {
   return (
     <header>
     <Link to="/" className="logo">MyBlog</Link>
+   
    <nav>
     {
       username && (

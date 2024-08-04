@@ -1,7 +1,7 @@
-import React, { useState,useRef } from 'react'
+import React, { useState,useRef, useEffect } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {Navigate} from 'react-router-dom'
+import {Navigate, useParams} from 'react-router-dom'
 
 const mondules={
     toolbar: [
@@ -31,51 +31,57 @@ const mondules={
     'clean',
   ]
 
-function CreatePost() {
+function EditPost() {
     const [title,setTitle]=useState('')
     const [summary,setSummary]=useState('')
     const [content,setContent]=useState('')
     const [file,setFile]=useState('')
+
     const [redirect,setRedirect]=useState(false)
    
     const quillRef = useRef(' ');
    
-
+    const {id}=useParams()
   
+   useEffect(()=>{
+    fetch('http://localhost:4000/post/'+id)
+      .then(response=>{
+        response.json().then(postInfo=>{
+            setTitle(postInfo.title);
+            setContent(postInfo.content);
+            setSummary(postInfo.summary);
+            setFile(postInfo.file)
+        })
+      });
+   },[])
 
-   async function createNewPost(e){
-       e.preventDefault();
-        const data= new FormData();
-
-        data.set('title',title);
-        data.set('summary',summary);
-        data.set('content',content);
-        data.set('file',file[0]);
-       
-        
-         const response= await fetch('http://localhost:4000/post', {
-            method:'POST',
-            body:data,
-            credentials:'include',
-        
-          });
-
-          if (response.status === 200) {
-            alert('Post created successfully');
-              setRedirect(true);
-          } else {
-            alert('Failed to create post');
-            console.log('my data:'+ await response.json());
-          }
-
-          
+ 
+   async function updatePost(ev) {
+    ev.preventDefault();
+    const data = new FormData();
+    data.set('title', title);
+    data.set('summary', summary);
+    data.set('content', content);
+    data.set('id', id);
+    if (file?.[0]) {
+      data.set('file', file?.[0]);
     }
-   
-    if(redirect){
-        return <Navigate  to={'/'} />
+    const response = await fetch('http://localhost:4000/post', {
+      method: 'PUT',
+      body: data,
+      credentials: 'include',
+    });
+    if (response.ok) {
+      setRedirect(true);
     }
+  }
+
+
+if (redirect) {
+  return <Navigate to={'/'} />
+}
     return (
-   <form id='createpost' onSubmit={createNewPost}>
+   <form id='editpost' onSubmit={updatePost}>
     <input type='text' 
      name='title'
     placeholder='Title'
@@ -95,15 +101,15 @@ function CreatePost() {
    
     <ReactQuill  
     ref={quillRef}
-    theme = 'snow'
+     theme = 'snow'
      value={content} 
       onChange={setContent}
      modules={mondules} 
      formats={formats}/>
-    <button style={{marginTop:"5px"}}>Create Post</button>
+    <button style={{marginTop:"5px"}}>Update Post</button>
 
     </form>
   )
 }
 
-export default CreatePost;
+export default EditPost;

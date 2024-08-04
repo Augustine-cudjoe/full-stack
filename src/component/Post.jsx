@@ -1,22 +1,38 @@
 import React from 'react'
 import { formatISO9075 } from "date-fns";
-function Post({title,summary,content,file,createdAt}) {
+import { Link } from 'react-router-dom';
+function Post({_id,title,summary,content,file,createdAt}) {
+ 
+  function truancateText(text, maxtext){
+     if(text.length <= maxtext){
+      return text;
+     }
+     return text.substring(0, maxtext) + '...'
+
+  }
   return (
-    <div className="post">
+    <>
+   
+     <div className="post">
+      <Link to={`/post/${_id}`}>
       <div className="image">
-      <img src='https://images.unsplash.com/photo-1532892939738-86e29515dc9e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3BsYXNofGVufDB8fDB8fHww'/>
+      <img src={'http://localhost:4000/'+ file} alt='...'/>
       
       </div>
+      </Link>
       <div className="content">
-      <h2> {title}</h2>
+       <Link to={`/post/${_id}`}>
+       <h2> {title}</h2>
+       </Link>
       <p className='info'>
-        <a className='author'> Augustine Cudjoe</a>
+        <a className='author'>@ {summary}</a>
         <time>{formatISO9075(new Date(createdAt))}</time>
       </p>
-       <p className='summary'> {summary} </p>
+       <div className='contents'> { truancateText(content.replace(/<[^>]*>?/gm, ''),300)} </div>
     
       </div>
     </div>
+    </>
   )
 }
 
