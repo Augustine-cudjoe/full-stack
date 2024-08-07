@@ -9,7 +9,20 @@ function Login() {
  const [password,setPassword]=useState('');
  const [redirect,setRedirect]=useState(false);
  const {setUserInfo}=useContext(UserContext);
+
  
+ const notify = () => {
+  toast.success("Success Notification !", {
+    position: "top-right",
+    
+  });
+
+
+
+ 
+};
+
+
  async function login(e){
    e.preventDefault();
 
@@ -21,13 +34,15 @@ function Login() {
   
    })
    if(response.status===200){
+    
     response.json().then(userInfo=>{
       setUserInfo(userInfo)
       setRedirect(true)
     })
-     
+    notify ();
   }else{
-    alert('Wrong credentials');
+     alert('Wrong credentials');
+   
   }
  }
  if(redirect){
@@ -35,6 +50,7 @@ function Login() {
  }
   return (
     <form className='login' onSubmit={login}>
+     
          <h1>Login </h1>
        <input type='text'
         placeholder='username' 
@@ -44,7 +60,8 @@ function Login() {
         placeholder='password' 
         value={password} 
         onChange={(e)=>setPassword(e.target.value)}/>
-        <button type='submit'>Submit</button>
+           <ToastContainer limit={1}/>
+        <button type='submit'  onClick={notify()}>Submit</button>
     </form>
   )
 }

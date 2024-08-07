@@ -32,7 +32,7 @@ function Header() {
     <header>
     <Link to="/" className="logo">MyBlog</Link>
    
-   <nav>
+   <nav className='fixed-top'>
     {
       username && (
         <>

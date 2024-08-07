@@ -35,7 +35,7 @@ function EditPost() {
     const [title,setTitle]=useState('')
     const [summary,setSummary]=useState('')
     const [content,setContent]=useState('')
-    const [file,setFile]=useState('')
+    const [files,setFiles]=useState('')
 
     const [redirect,setRedirect]=useState(false)
    
@@ -50,7 +50,7 @@ function EditPost() {
             setTitle(postInfo.title);
             setContent(postInfo.content);
             setSummary(postInfo.summary);
-            setFile(postInfo.file)
+            setFiles(postInfo.files)
         })
       });
    },[])
@@ -63,8 +63,8 @@ function EditPost() {
     data.set('summary', summary);
     data.set('content', content);
     data.set('id', id);
-    if (file?.[0]) {
-      data.set('file', file?.[0]);
+    if (files?.[0]) {
+      data.set('file', files?.[0]);
     }
     const response = await fetch('http://localhost:4000/post', {
       method: 'PUT',
@@ -97,7 +97,7 @@ if (redirect) {
 
     <input type='file' 
         name='file'
-      onChange={(e)=>setFile(e.target.files)}/>
+      onChange={(e)=>setFiles(e.target.files)}/>
    
     <ReactQuill  
     ref={quillRef}
